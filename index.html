@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Article Analyzer</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f5f7fb;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #ff6a00, #ee0979);
+            color: white;
+            padding: 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+        }
+
+        .hero p {
+            font-size: 18px;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 12px;
+            background: #ff6a00;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e55d00;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* BLOG SECTIONS */
+        .section {
+            margin-top: 30px;
+        }
+
+        .section img {
+            width: 100%;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .section p {
+            line-height: 1.7;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        /* STARS */
+        .stars {
+            font-size: 24px;
+            color: gold;
+        }
+
+        .positive { color: green; }
+        .negative { color: red; }
+        .neutral { color: orange; }
+
+    </style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>🧠 Article Analyzer</h1>
+    <p>Analyze blog sentiment with AI in seconds</p>
+</div>
+
+<div class="container">
+
+    <!-- INPUT -->
+    <form method="POST">
+        <input type="text" name="url" placeholder="Enter article URL..." required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if data %}
+    <div class="card">
+
+        <h2>{{ data.title }}</h2>
+
+        <!-- OVERVIEW -->
+        <h3>📌 Overview</h3>
+        <p>{{ data.short }}</p>
+
+        <br>
+
+        <!-- BUTTONS -->
+        <button onclick="toggle('full')">📖 Read Full Blog</button>
+        <button onclick="toggle('review')">📊 View Sentiment</button>
+
+        <!-- FULL BLOG -->
+        <div id="full" class="hidden">
+
+            <!-- SECTION 1 -->
+            <div class="section">
+                <h3>🤖 AI in Society</h3>
+                <img src="https://images.unsplash.com/photo-1677442135136-760c813028c0">
+                <p>
+                    Artificial Intelligence (AI) is transforming the way we live and work. It refers to the ability
+                    of machines to simulate human intelligence, allowing them to learn, reason, and make decisions.
+                </p>
+                <p>
+                    AI is now integrated into everyday life, from voice assistants to recommendation systems.
+                    It enhances efficiency, automates tasks, and improves user experience across various platforms.
+                </p>
+            </div>
+
+            <!-- SECTION 2 -->
+            <div class="section">
+                <h3>📊 AI in Industries</h3>
+                <img src="https://images.unsplash.com/photo-1581090700227-4c4a4b66c3f0">
+                <p>
+                    AI is revolutionizing industries such as healthcare, finance, and education. In healthcare,
+                    it helps in diagnosis and treatment planning. In finance, it improves fraud detection and automation.
+                </p>
+                <p>
+                    Businesses are using AI to analyze large datasets, make better decisions, and increase productivity.
+                    This transformation is leading to cost reduction and improved performance.
+                </p>
+            </div>
+
+            <!-- SECTION 3 -->
+            <div class="section">
+                <h3>🚀 Future of AI</h3>
+                <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a">
+                <p>
+                    The future of AI is extremely promising. It will continue to evolve and solve complex global problems.
+                    AI will play a key role in smart cities, automation, and innovation.
+                </p>
+                <p>
+                    However, ethical concerns such as privacy, bias, and job displacement must be addressed.
+                    Responsible AI development is essential for long-term success.
+                </p>
+                <p>
+                    With proper regulation and innovation, AI has the potential to improve lives and drive progress globally.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- SENTIMENT -->
+        <div id="review" class="hidden">
+
+            <h3>📊 Sentiment Analysis</h3>
+
+            <p>Positive: {{ data.pos }}%</p>
+            <p>Neutral: {{ data.neu }}%</p>
+            <p>Negative: {{ data.neg }}%</p>
+
+            <h3>⭐ Rating</h3>
+            <div class="stars">
+                {% for i in range(data.rating) %}★{% endfor %}
+                {% for i in range(5-data.rating) %}☆{% endfor %}
+            </div>
+
+            <br>
+
+            {% if data.pos > data.neg %}
+                <p class="positive">Overall: Positive 😊</p>
+            {% elif data.neg > data.pos %}
+                <p class="negative">Overall: Negative 😠</p>
+            {% else %}
+                <p class="neutral">Overall: Neutral 😐</p>
+            {% endif %}
+
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+function toggle(id){
+    let x = document.getElementById(id);
+    x.style.display = (x.style.display === "block") ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
